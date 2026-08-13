@@ -28,6 +28,7 @@ dependencies:
   go_table:
     git:
       url: https://github.com/dgtoan/go_table.git
+      ref: v1.0.0
 ```
 
 Then run:
@@ -38,6 +39,19 @@ flutter pub get
 
 TODO: Put a short description of the package here that helps potential users
 know whether this package might be useful for them.
+
+## Development
+
+Create a new version tag and push it to GitHub:
+
+```bash
+git add .
+git commit -m "Release version 1.0.0"
+git tag v1.0.0
+git push origin main
+git push origin v1.0.0
+```
+
 
 ## Getting started
 
