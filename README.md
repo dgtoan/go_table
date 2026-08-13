@@ -28,7 +28,7 @@ dependencies:
   go_table:
     git:
       url: https://github.com/dgtoan/go_table.git
-      ref: v1.0.0
+      ref: v1.0.1
 ```
 
 Then run:
