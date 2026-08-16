@@ -4,6 +4,7 @@ import 'package:go_table/src/models/go_table_actions.dart';
 import 'package:go_table/src/models/go_table_column.dart';
 import 'package:go_table/src/models/go_table_decoration.dart';
 import 'package:go_table/src/extensions/widget_list_separator.dart';
+import 'package:go_table/src/widgets/go_table_row.dart';
 
 class GoTableContent<T> extends StatefulWidget {
   const GoTableContent({
@@ -76,8 +77,7 @@ class _GoTableContentState<T> extends State<GoTableContent<T>> {
                     child: Column(
                       children: [
                         ColoredBox(
-                          color:
-                              widget.decoration.headerBackgroundColor ??
+                          color: widget.decoration.headerBackgroundColor ??
                               Theme.of(
                                 context,
                               ).primaryColor.withValues(alpha: 0.1),
@@ -87,16 +87,17 @@ class _GoTableContentState<T> extends State<GoTableContent<T>> {
                                   .map((column) {
                                     final child =
                                         column.header?.call(context) ??
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Text(
-                                            column.headerLabel ?? '',
-                                            textAlign: TextAlign.center,
-                                            style: const TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                        );
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Text(
+                                                column.headerLabel ?? '',
+                                                textAlign: TextAlign.center,
+                                                style: const TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                            );
                                     if (column.width != null) {
                                       return SizedBox(
                                         width: column.width,
@@ -123,56 +124,13 @@ class _GoTableContentState<T> extends State<GoTableContent<T>> {
                               itemCount: widget.data.length,
                               itemBuilder: (context, index) {
                                 final rowIndex = widget.baseRowIndex + index;
-                                return Column(
-                                  children: [
-                                    InkWell(
-                                      onTap: widget.actions?.onRowTap != null
-                                          ? () => widget.actions?.onRowTap
-                                                ?.call(widget.data[index])
-                                          : null,
-                                      child: ColoredBox(
-                                        color: widget.decoration
-                                            .rowBackgroundColor(index),
-                                        child: IntrinsicHeight(
-                                          child: Row(
-                                            children: widget.columns
-                                                .map((column) {
-                                                  final cellContent = Padding(
-                                                    padding:
-                                                        const EdgeInsets.all(
-                                                          4.0,
-                                                        ),
-                                                    child: column.cellBuilder(
-                                                      rowIndex,
-                                                      widget.data[index],
-                                                    ),
-                                                  );
-                                                  if (column.width != null) {
-                                                    return SizedBox(
-                                                      width: column.width,
-                                                      child: cellContent,
-                                                    );
-                                                  }
-                                                  return Expanded(
-                                                    flex: column.flex ?? 1,
-                                                    child: cellContent,
-                                                  );
-                                                })
-                                                .toList()
-                                                .separatedBy(
-                                                  const VerticalDivider(
-                                                    width: 1,
-                                                  ),
-                                                ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    Divider(
-                                      height: 1,
-                                      color: widget.decoration.dividerColor,
-                                    ),
-                                  ],
+                                return GoTableRow<T>(
+                                  rowIndex: rowIndex,
+                                  index: index,
+                                  data: widget.data,
+                                  columns: widget.columns,
+                                  decoration: widget.decoration,
+                                  actions: widget.actions,
                                 );
                               },
                             ),

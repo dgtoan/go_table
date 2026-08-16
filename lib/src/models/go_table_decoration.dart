@@ -4,6 +4,7 @@ class GoTableDecoration {
   final Color? headerBackgroundColor;
   final Color Function(int rowIndex) rowBackgroundColor;
   final Color? dividerColor;
+  final Color focusColor;
   final IconData filterIcon;
   final IconData filterEnabledIcon;
   final IconData sortIcon;
@@ -22,6 +23,7 @@ class GoTableDecoration {
     this.headerBackgroundColor,
     this.rowBackgroundColor = defaultRowBackgroundColor,
     this.dividerColor,
+    this.focusColor = Colors.blue,
     this.filterIcon = Icons.filter_list_off,
     this.filterEnabledIcon = Icons.filter_list,
     this.sortIcon = Icons.arrow_downward,
