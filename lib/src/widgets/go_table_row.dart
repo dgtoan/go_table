@@ -113,13 +113,13 @@ class _GoTableCellState<T> extends State<_GoTableCell<T>> {
         setState(() => _isFocused = isFocused);
       },
       onKeyEvent: (node, event) {
-        widget.actions?.onCellKeyEvent?.call(
+        final result = widget.actions?.onCellKeyEvent?.call(
           widget.rowIndex,
           widget.columnIndex,
           widget.rowData,
           event,
         );
-        return KeyEventResult.ignored;
+        return result ?? KeyEventResult.ignored;
       },
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 150),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-typedef GoTableCellKeyEventCallback<T> = void Function(
+typedef GoTableCellKeyEventCallback<T> = KeyEventResult? Function(
   int rowIndex,
   int columnIndex,
   T data,
