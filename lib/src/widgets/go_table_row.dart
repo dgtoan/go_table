@@ -45,7 +45,7 @@ class GoTableRow<T> extends StatelessWidget {
                       final cellContent = _GoTableCell(
                         rowData: rowData,
                         column: column,
-                        rowIndex: rowIndex,
+                        rowIndex: index,
                         columnIndex: columnIndex,
                         actions: actions,
                         decoration: decoration,
