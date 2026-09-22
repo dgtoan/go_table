@@ -24,67 +24,64 @@ class GoTableFooter<T> extends StatelessWidget {
   Widget build(BuildContext context) {
     final isFirstPage = currentPage <= 1;
     final isLastPage = currentPage >= totalPages;
-    return Row(
-      spacing: 8,
-      children: [
-        LayoutBuilder(
-          builder: (context, constraints) {
-            if (constraints.maxWidth < 480) {
-              return IconButton(
-                onPressed: actions?.onRefresh,
-                icon: Icon(decoration.refreshIcon, size: 16),
-              );
-            }
-            return TextButton.icon(
-              onPressed: actions?.onRefresh,
-              label: const Text('Làm mới', style: TextStyle(fontSize: 13)),
-              icon: Icon(decoration.refreshIcon, size: 16),
-            );
-          },
-        ),
-        const Spacer(),
-        const Text('Số hàng:', style: TextStyle(fontSize: 13)),
-        DropdownButton<int>(
-          value: rowsPerPage,
-          elevation: 4,
-          focusColor: Colors.transparent,
-          items: availableRowsPerPage
-              .map(
-                (value) => DropdownMenuItem<int>(
-                  value: value,
-                  child: Text(
-                    value.toString(),
-                    style: const TextStyle(fontSize: 13),
-                  ),
+    return LayoutBuilder(builder: (context, constraints) {
+      return Row(
+        spacing: 8,
+        children: [
+          constraints.maxWidth < 480
+              ? IconButton(
+                  onPressed: actions?.onRefresh,
+                  icon: Icon(decoration.refreshIcon, size: 16),
+                )
+              : TextButton.icon(
+                  onPressed: actions?.onRefresh,
+                  label: const Text('Làm mới', style: TextStyle(fontSize: 13)),
+                  icon: Icon(decoration.refreshIcon, size: 16),
                 ),
-              )
-              .toList(),
-          onChanged: (value) {
-            if (value != null) {
-              actions?.onRowsPerPageChanged?.call(value);
-            }
-          },
-        ),
-        const SizedBox(height: 24, child: VerticalDivider(width: 1)),
-        Text(
-          'Trang $currentPage / $totalPages',
-          style: const TextStyle(fontSize: 13),
-        ),
-        IconButton(
-          onPressed: isFirstPage
-              ? null
-              : () => actions?.onPageChanged?.call(currentPage - 1),
-          iconSize: 20,
-          icon: Icon(decoration.previousPageIcon),
-        ),
-        IconButton(
-          onPressed: isLastPage
-              ? null
-              : () => actions?.onPageChanged?.call(currentPage + 1),
-          iconSize: 20,
-          icon: Icon(decoration.nextPageIcon),
-        ),
-      ],
-    );
+          const Spacer(),
+          const Text('Số hàng:', style: TextStyle(fontSize: 13)),
+          DropdownButton<int>(
+            value: rowsPerPage,
+            elevation: 4,
+            focusColor: Colors.transparent,
+            items: availableRowsPerPage
+                .map(
+                  (value) => DropdownMenuItem<int>(
+                    value: value,
+                    child: Text(
+                      value.toString(),
+                      style: const TextStyle(fontSize: 13),
+                    ),
+                  ),
+                )
+                .toList(),
+            onChanged: (value) {
+              if (value != null) {
+                actions?.onRowsPerPageChanged?.call(value);
+              }
+            },
+          ),
+          const SizedBox(height: 24, child: VerticalDivider(width: 1)),
+          Text(
+            'Trang $currentPage / $totalPages',
+            style: const TextStyle(fontSize: 13),
+          ),
+          IconButton(
+            onPressed: isFirstPage
+                ? null
+                : () => actions?.onPageChanged?.call(currentPage - 1),
+            iconSize: 20,
+            icon: Icon(decoration.previousPageIcon),
+          ),
+          IconButton(
+            onPressed: isLastPage
+                ? null
+                : () => actions?.onPageChanged?.call(currentPage + 1),
+            iconSize: 20,
+            icon: Icon(decoration.nextPageIcon),
+          ),
+        ],
+      );
+    });
   }
 }
