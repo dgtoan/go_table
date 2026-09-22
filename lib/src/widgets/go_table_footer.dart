@@ -27,13 +27,23 @@ class GoTableFooter<T> extends StatelessWidget {
     return Row(
       spacing: 8,
       children: [
-        TextButton.icon(
-          onPressed: actions?.onRefresh,
-          label: const Text('Làm mới', style: TextStyle(fontSize: 13)),
-          icon: Icon(decoration.refreshIcon, size: 16),
+        LayoutBuilder(
+          builder: (context, constraints) {
+            if (constraints.maxWidth < 480) {
+              return IconButton(
+                onPressed: actions?.onRefresh,
+                icon: Icon(decoration.refreshIcon, size: 16),
+              );
+            }
+            return TextButton.icon(
+              onPressed: actions?.onRefresh,
+              label: const Text('Làm mới', style: TextStyle(fontSize: 13)),
+              icon: Icon(decoration.refreshIcon, size: 16),
+            );
+          },
         ),
         const Spacer(),
-        const Text('Số hàng mỗi trang:', style: TextStyle(fontSize: 13)),
+        const Text('Số hàng:', style: TextStyle(fontSize: 13)),
         DropdownButton<int>(
           value: rowsPerPage,
           elevation: 4,
