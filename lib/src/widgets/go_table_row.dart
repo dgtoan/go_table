@@ -105,12 +105,33 @@ class _GoTableCell<T> extends StatefulWidget {
 class _GoTableCellState<T> extends State<_GoTableCell<T>> {
   bool _isFocused = false;
 
+  /// Scrolls the table (both axes) so the focused cell is visible, e.g. when
+  /// tabbing to the first cell of the next row while scrolled horizontally.
+  void _revealCell() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      // keepVisibleAtEnd only scrolls forward and keepVisibleAtStart only
+      // backward, so apply both to follow focus in either direction.
+      for (final policy in [
+        ScrollPositionAlignmentPolicy.keepVisibleAtEnd,
+        ScrollPositionAlignmentPolicy.keepVisibleAtStart,
+      ]) {
+        Scrollable.ensureVisible(
+          context,
+          duration: const Duration(milliseconds: 150),
+          alignmentPolicy: policy,
+        );
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Focus(
       canRequestFocus: false,
       onFocusChange: (isFocused) {
         setState(() => _isFocused = isFocused);
+        if (isFocused) _revealCell();
       },
       onKeyEvent: (node, event) {
         final result = widget.actions?.onCellKeyEvent?.call(

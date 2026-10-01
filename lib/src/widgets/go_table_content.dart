@@ -43,7 +43,6 @@ class _GoTableContentState<T> extends State<GoTableContent<T>> {
   Widget build(BuildContext context) {
     final showScrollbar = kIsWeb ? true : false;
     return Scrollbar(
-      key: ValueKey('vertical_scrollbar_${widget.data.length}'),
       controller: _verticalScrollController,
       thumbVisibility: showScrollbar,
       trackVisibility: showScrollbar,
@@ -55,9 +54,6 @@ class _GoTableContentState<T> extends State<GoTableContent<T>> {
               ? constraints.maxWidth
               : widget.minWidth;
           return Scrollbar(
-            key: ValueKey(
-              'horizontal_scrollbar_${widget.data.length}_${constraints.maxWidth}',
-            ),
             controller: _horizontalScrollController,
             thumbVisibility: showScrollbar,
             trackVisibility: showScrollbar,
