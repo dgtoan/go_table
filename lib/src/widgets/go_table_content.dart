@@ -39,6 +39,13 @@ class _GoTableContentState<T> extends State<GoTableContent<T>> {
     super.dispose();
   }
 
+  bool _isOwnNotification(
+    ScrollNotification notification,
+    ScrollController controller,
+  ) =>
+      controller.hasClients &&
+      notification.context == controller.position.context.notificationContext;
+
   @override
   Widget build(BuildContext context) {
     final showScrollbar = kIsWeb ? true : false;
@@ -47,7 +54,7 @@ class _GoTableContentState<T> extends State<GoTableContent<T>> {
       thumbVisibility: showScrollbar,
       trackVisibility: showScrollbar,
       notificationPredicate: (notification) =>
-          notification.metrics.axis == Axis.vertical,
+          _isOwnNotification(notification, _verticalScrollController),
       child: LayoutBuilder(
         builder: (context, constraints) {
           final double tableWidth = constraints.maxWidth > widget.minWidth
@@ -58,7 +65,7 @@ class _GoTableContentState<T> extends State<GoTableContent<T>> {
             thumbVisibility: showScrollbar,
             trackVisibility: showScrollbar,
             notificationPredicate: (notification) =>
-                notification.metrics.axis == Axis.horizontal,
+                _isOwnNotification(notification, _horizontalScrollController),
             child: ScrollConfiguration(
               behavior: ScrollConfiguration.of(
                 context,
